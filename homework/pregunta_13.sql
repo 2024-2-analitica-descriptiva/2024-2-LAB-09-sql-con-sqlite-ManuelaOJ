@@ -45,7 +45,16 @@
 --  
 
 
-SELECT K0, ROUND(AVG(c12), 2) AS "avg(c12)"
-FROM tbl1
-WHERE c13 > 400
-GROUP BY K0;
+SELECT 
+    K0, 
+    CASE 
+        WHEN (AVG(c12) * 100) - FLOOR(AVG(c12) * 100) < 0.5 
+            THEN FLOOR(AVG(c12) * 100) / 100
+        ELSE CEIL(AVG(c12) * 100) / 100
+    END AS 'avg(c12)' 
+FROM 
+    tbl1 
+WHERE 
+    c13 > 400 
+GROUP BY 
+    K0;
